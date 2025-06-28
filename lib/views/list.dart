@@ -72,86 +72,79 @@ class _AnimeListScreenState extends State<AnimeListScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Naruto Universe List"),
-      ),
+      appBar: AppBar(title: Text("Naruto Universe List")),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () => fetchData('akatsuki'),
-                child: Text('Akatsuki'),
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () => fetchData('Kara'),
-                child: Text('Kara'),
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () => fetchData('characters'),
-                child: Text('Characters'),
-              ),
-            ],
-          ),
           Expanded(
-              child: _isLoading
-                  ? Center(child: CircularProgressIndicator())
-                  : _errorMessage != null
-                      ? Center(child: Text(_errorMessage!))
-                      : ListView.builder(
-                          itemCount: _currentEndpoint == 'characters'
+            child:
+                _isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : _errorMessage != null
+                    ? Center(child: Text(_errorMessage!))
+                    : ListView.builder(
+                      itemCount:
+                          _currentEndpoint == 'characters'
                               ? _charactersList.length
                               : _animeList.length,
-                          itemBuilder: (context, index) {
-                            //untuk character
-                            if (_currentEndpoint == 'characters') {
-                              final character = _charactersList[index];
-                              return ListTile(
-                                leading: character.imageUrl.isNotEmpty
+                      itemBuilder: (context, index) {
+                        //untuk character
+                        if (_currentEndpoint == 'characters') {
+                          final character = _charactersList[index];
+                          return ListTile(
+                            leading:
+                                character.imageUrl.isNotEmpty
                                     ? Image.network(character.imageUrl)
                                     : Image.network(
-                                        'https://placehold.co/600x400'),
-                                title: Text(character.name),
-                                subtitle: Text(
-                                    "Kekkei Genkai ${character.kekeiGenkai}"),
-                                onTap: () {
-                                  print("${character.name} tapped");
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailScreen(
-                                                id: character.id,
-                                                endpoint: _currentEndpoint,
-                                              )));
-                                },
+                                      'https://placehold.co/600x400',
+                                    ),
+                            title: Text(character.name),
+                            subtitle: Text(
+                              "Kekkei Genkai ${character.kekeiGenkai}",
+                            ),
+                            onTap: () {
+                              print("${character.name} tapped");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => DetailScreen(
+                                        id: character.id,
+                                        endpoint: _currentEndpoint,
+                                      ),
+                                ),
                               );
-                            } else {
-                              //untuk anime
-                              final anime = _animeList[index];
-                              return ListTile(
-                                leading: anime.imageUrl.isNotEmpty
+                            },
+                          );
+                        } else {
+                          //untuk anime
+                          final anime = _animeList[index];
+                          return ListTile(
+                            leading:
+                                anime.imageUrl.isNotEmpty
                                     ? Image.network(anime.imageUrl)
                                     : Image.network(
-                                        'https://placehold.co/600x400'),
-                                title: Text(anime.name),
-                                subtitle: Text("Family ${anime.familyCreator}"),
-                                onTap: () {
-                                  print("${anime.name} tapped");
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailScreen(
-                                                id: anime.id,
-                                                endpoint: _currentEndpoint,
-                                              )));
-                                },
+                                      'https://placehold.co/600x400',
+                                    ),
+                            title: Text(anime.name),
+                            subtitle: Text("Family ${anime.familyCreator}"),
+                            onTap: () {
+                              print("${anime.name} tapped");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => DetailScreen(
+                                        id: anime.id,
+                                        endpoint: _currentEndpoint,
+                                      ),
+                                ),
                               );
-                            }
-                          },
-                        ))
+                            },
+                          );
+                        }
+                      },
+                    ),
+          ),
         ],
       ),
     );
